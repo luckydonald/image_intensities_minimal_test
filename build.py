@@ -3,7 +3,7 @@ from cffi import FFI
 from pathlib import Path
 
 image_intensities_root_path = Path(__file__).parent
-image_intensities_sources_path = image_intensities_root_path / "sources2"
+image_intensities_sources_path = image_intensities_root_path / "sources"
 
 image_intensities_definitions = """
     extern struct intensity_data {
