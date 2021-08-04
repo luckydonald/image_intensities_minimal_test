@@ -15,7 +15,7 @@ setup(
     license="GPL3+",
     packages=find_packages(exclude=["tests"]),
     setup_requires=["cffi>=1.4.0"],
-    cffi_modules=["build2.py:intensities_ffi"],
+    cffi_modules=["build.py:intensities_ffi"],
     install_requires=["cffi>=1.4.0", "luckydonald-utils"],
     classifiers=[
         "Development Status :: 4 - Beta",
