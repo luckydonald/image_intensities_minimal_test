@@ -25,7 +25,7 @@ def prepare_variant():
 
     ffi = FFI()
     ffi.cdef("""
-        extern struct intensity_data {
+        typedef struct intensity_data {
             double nw;
             double ne;
             double sw;
