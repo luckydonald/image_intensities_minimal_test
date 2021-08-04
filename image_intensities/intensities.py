@@ -12,7 +12,7 @@ __author__ = 'luckydonald'
 
 # noinspection PyUnresolvedReferences
 from ._intensities import ffi as __ffi, lib as __lib
-from . import Luma
+from .classes import Luma
 
 
 def _convert_struct_to_luma(struct) -> Luma:
