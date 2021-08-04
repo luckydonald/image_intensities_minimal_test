@@ -1,42 +1,18 @@
+from pathlib import Path
+
 import pytest
-import newhope.cca
-import newhope.cpa
-from secrets import compare_digest
+from image_intensities import png_intensities, Luma
 
 
-@pytest.mark.parametrize("variant", [newhope.cca, newhope.cpa])
-def test_keypair(variant):
-    pk, sk = variant.generate_keypair()
-    assert pk and sk
-
-
-@pytest.mark.parametrize("variant", [newhope.cca, newhope.cpa])
-def test_encrypt(variant):
-    pk, sk = variant.generate_keypair()
-    ciphertext, plaintext = variant.encrypt(pk)
-    assert ciphertext and plaintext
-
-
-@pytest.mark.parametrize("variant", [newhope.cca, newhope.cpa])
-def test_decrypt_valid(variant):
-    pk, sk = variant.generate_keypair()
-    ciphertext, plaintext_original = variant.encrypt(pk)
-    plaintext_recovered = variant.decrypt(sk, ciphertext)
-
-    assert plaintext_recovered
-    assert compare_digest(plaintext_original, plaintext_recovered)
-
-
-@pytest.mark.parametrize("variant", [newhope.cca, newhope.cpa])
-def test_decrypt_invalid(variant):
-    pk, sk = variant.generate_keypair()
-    ciphertext, plaintext_original = variant.encrypt(pk)
-
-    ciphertext = bytearray(ciphertext)
-    ciphertext[len(ciphertext) // 2] = (ciphertext[len(ciphertext) // 2] + 1) % 256
-    ciphertext = bytes(ciphertext)
-
-    plaintext_recovered = variant.decrypt(sk, ciphertext)
-
-    assert plaintext_recovered
-    assert not compare_digest(plaintext_original, plaintext_recovered)
+@pytest.mark
+def test_png(variant):
+    expected = {  # https://derpibooru.org//api/v1/json/images/954482
+      "ne": 10.513891063388744,
+      "nw": 35.832628091300684,
+      "se": 20.831389937866714,
+      "sw": 20.76546499989676
+    }
+    expected = Luma(**expected)
+    result = png_intensities(str(Path(__file__).parent / 'd94ymc6-7401014c-59fb-4a52-b314-8eed8172d33e.png'))
+    assert result == expected
+# end def
