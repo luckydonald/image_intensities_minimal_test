@@ -110,6 +110,15 @@ def prepare_variant():
         "sources/turbojpeg/wrppm.c",
     ]
 
+    include_dirs = [  # -I
+        'sources/',
+        'sources/turbojpeg/',
+    ]
+    libraries = [  # -L
+        'sources/jpeg',
+        'sources/png',
+    ]
+
     if "Windows" in platform.system():
         extra_kwargs["extra_link_args"] = ["/NODEFAULTLIB:MSVCRTD"]
         extra_kwargs["libraries"] = ["advapi32"]
@@ -118,6 +127,8 @@ def prepare_variant():
         'images_intensities._intensities',
         f'#include "{ str(header_path) }"',
         sources=sources,
+        include_dirs=include_dirs,  # -I
+        libraries=libraries,  # -L
         **extra_kwargs,
     )
 
