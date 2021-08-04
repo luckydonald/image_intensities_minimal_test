@@ -109,8 +109,7 @@ def prepare_variant():
         'sources/turbojpeg/',
     ]
     libraries = [  # -L
-        'sources/jpeg',
-        'sources/png',
+        'png',
     ]
     extra_compile_args = [
         "-std=c99",
