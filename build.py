@@ -125,7 +125,7 @@ def prepare_variant():
         extra_kwargs["libraries"] = ["advapi32"]
 
     ffi.set_source(
-        'images_intensities._intensities',
+        'image_intensities._intensities',
         f'#include "{ str(header_path) }"',
         sources=sources,
         include_dirs=include_dirs,  # -I
