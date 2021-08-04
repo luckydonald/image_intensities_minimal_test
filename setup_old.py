@@ -1,22 +1,22 @@
 from os import path
 from setuptools import setup, find_packages
 
-with open(path.join(path.abspath(path.dirname(__file__)), "README.md"), encoding="utf-8") as handle:
+with open(path.join(path.abspath(path.dirname(__file__)), "README.rst"), encoding="utf-8") as handle:
     readme = handle.read()
 
 setup(
-    name="image-intensities_test",
-    version="0.0.10.dev3",
-    description="Blah.",
+    name="newhope-cffi",
+    version="0.0.2",
+    description="Tested, cross-platform Python 3 bindings for the NewHope key exchange mechanism supporting both NewHope1024-CPA-KEM and NewHope1024-CCA-KEM.",
     long_description=readme,
-    url="https://github.com/luckydonald/image_intensities",
-    author="luckydonald",
-    author_email="fooppppoo@example.com",
-    license="GPL3+",
+    url="https://github.com/kpdemetriou/newhope-cffi",
+    author="Phil Demetriou",
+    author_email="inbox@philonas.net",
+    license="BSD",
     packages=find_packages(exclude=["tests"]),
     setup_requires=["cffi>=1.4.0"],
-    cffi_modules=["build2.py:intensities_ffi"],
-    install_requires=["cffi>=1.4.0", "luckydonald-utils"],
+    cffi_modules=["build.py:cca_ffi", "build.py:cpa_ffi"],
+    install_requires=["cffi>=1.4.0"],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",

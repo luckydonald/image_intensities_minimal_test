@@ -1,4 +1,7 @@
-# NewHope CFFI
+#
+
+the algorithmic overview is to convert the image into the yuv colorspace, drop the u and v
+components, and then average the y component over 4 evenly-spaced rectangles on the image dimensions
 
 [NewHope](https://newhopecrypto.org/data/NewHope_2019_07_10.pdf) is a key exchange protocol based on the Ring-Learning-with-Errors (Ring-LWE) problem and a round 2 candidate submission in the [Post-Quantum Cryptography Standardization](https://csrc.nist.gov/projects/post-quantum-cryptography/post-quantum-cryptography-standardization) project organised by [NIST](https://www.nist.gov/).
 
