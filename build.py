@@ -118,6 +118,13 @@ def prepare_variant():
         'sources/jpeg',
         'sources/png',
     ]
+    extra_compile_args = [
+        "-std=c99",
+        "-fPIC",
+        "-O3",
+        "-DPPM_SUPPORTED",
+        "-DBMP_SUPPORTED",
+    ]
 
     if "Windows" in platform.system():
         extra_kwargs["extra_link_args"] = ["/NODEFAULTLIB:MSVCRTD"]
@@ -129,6 +136,7 @@ def prepare_variant():
         sources=sources,
         include_dirs=include_dirs,  # -I
         libraries=libraries,  # -L
+        extra_compile_args=extra_compile_args,
         **extra_kwargs,
     )
 
