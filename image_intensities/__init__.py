@@ -6,5 +6,7 @@ from .classes import Luma
 try:
     from .intensities import jpeg_intensities, png_intensities
 except ImportError:
-    from .pure_python import jpeg_intensities, png_intensities
+    from .pure_python import rgb_luma_from_filename
+    jpeg_intensities = rgb_luma_from_filename
+    png_intensities = rgb_luma_from_filename
 # end try
