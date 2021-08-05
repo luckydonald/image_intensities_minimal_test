@@ -13,6 +13,6 @@ def test_png(variant):
       "sw": 20.76546499989676
     }
     expected = Luma(**expected)
-    result = png_intensities(str(Path(__file__).parent / 'd94ymc6-7401014c-59fb-4a52-b314-8eed8172d33e.png'))
+    result = png_intensities(str(Path(__file__).parent / '954482.png'))
     assert result == expected
 # end def

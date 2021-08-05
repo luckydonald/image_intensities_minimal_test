@@ -36,7 +36,7 @@ cd ..
 python -c"import image_intensities as it; print(it._intensities.ffi)"
 
 # test with a png
-python -c"from image_intensities import png_intensities; print(png_intensities('/image_intensities_minimal_test/tests/d94ymc6-7401014c-59fb-4a52-b314-8eed8172d33e.png'))"
+python -c"from image_intensities import png_intensities; print(png_intensities('/image_intensities_minimal_test/tests/954482.png'))"
 # see tests/test_functionality.py for the expected result.
 ```
 
