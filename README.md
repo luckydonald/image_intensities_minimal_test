@@ -3,6 +3,12 @@
 the algorithmic overview is to convert the image into the yuv colorspace, drop the u and v components,
 and then average the y component over 4 evenly-spaced rectangles on the image dimensions
 
+# Docker
+ 
+> ⚠️ Make sure you pull a recent release of the python docker image (even if it's an older python version!).
+> Especially if you're getting errors complaining about a `png_set_longjmp_fn` function when you try to use it.
+> As time of writing the 2-month old version did not work, but the newest releases (`python:3.6`: `6ac87e65b6d0`, `pythong:3.9`: `1b33974176a3`) ones have that fixed.  
+
 ```
 # e.g. docker run --rm -it python:3.9 bash
 
@@ -26,11 +32,16 @@ python setup.py install
 cd ..
 
 # TEST
-python
-from image_intensities import png_intensities
+# test import
+python -c"import image_intensities as it; print(it._intensities.ffi)"
+
+# test with a png
+python -c"from image_intensities import png_intensities; print(png_intensities('/image_intensities_minimal_test/tests/d94ymc6-7401014c-59fb-4a52-b314-8eed8172d33e.png'))"
+# see tests/test_functionality.py for the expected result.
 ```
 
 # Mac OS:
 ```
+brew install libpng
 CPPFLAGS='-I/usr/local/include/' LDFLAGS='-L/usr/local/lib/' python setup.py install
 ```
