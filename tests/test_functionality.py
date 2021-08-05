@@ -5,7 +5,7 @@ from image_intensities import png_intensities, Luma
 
 
 @pytest.mark
-def test_png(variant):
+def test_png():
     expected = {  # https://derpibooru.org//api/v1/json/images/954482
       "ne": 10.513891063388744,
       "nw": 35.832628091300684,
