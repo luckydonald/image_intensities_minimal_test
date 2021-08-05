@@ -1,2 +1,2 @@
 include build.py
-recursive-include sources2 *
+recursive-include sources *
