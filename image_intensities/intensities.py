@@ -22,13 +22,13 @@ def _convert_struct_to_luma(struct) -> Luma:
 
 def jpeg_intensities(filename) -> Luma:
     filename = b(filename)
-    result_struct = __ffi.jpeg_intensities(filename)
+    result_struct = __lib.jpeg_intensities(filename)
     return _convert_struct_to_luma(result_struct)
 # end def
 
 
 def png_intensities(filename) -> Luma:
     filename = b(filename)
-    result_struct = __ffi.png_intensities(filename)
+    result_struct = __lib.png_intensities(filename)
     return _convert_struct_to_luma(result_struct)
 # end def
