@@ -42,6 +42,6 @@ python -c"from image_intensities import png_intensities; print(png_intensities('
 
 # Mac OS:
 ```
-brew install libpng
+brew install libpng # possibly libjpeg-turbo
 CPPFLAGS='-I/usr/local/include/' LDFLAGS='-L/usr/local/lib/' python setup.py install
 ```
