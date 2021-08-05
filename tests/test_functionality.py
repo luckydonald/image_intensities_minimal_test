@@ -27,6 +27,6 @@ def test_jpeg():
       "sw": 22.85193
     }
     expected = Luma(**expected)
-    result = jpeg_intensities(str(Path(__file__).parent / '2544057.jpeg'))
+    result = jpeg_intensities(str(Path(__file__).parent / '2544057.jpg'))
     assert result == expected
 # end def
