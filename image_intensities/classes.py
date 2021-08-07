@@ -11,6 +11,10 @@ if __name__ == '__main__':
     logging.add_colored_handler(level=logging.DEBUG)
 # end if
 
+
+DEFAULT_DISTANCE = 0.25
+
+
 class RGB(object):
     r: int
     g: int
@@ -33,7 +37,7 @@ class RGB(object):
 # end class
 
 
-class Sums(object):
+class QuadrantSums(object):
     nw: RGB
     ne: RGB
     sw: RGB
@@ -71,7 +75,7 @@ class Sums(object):
 # end class
 
 
-class Luma(object):
+class Intensities(object):
     nw: float
     ne: float
     sw: float
@@ -95,18 +99,19 @@ class Luma(object):
 
     __eq__ = equals
 
-    def compare(self, other: 'Luma', distance: float = 0.25,):
+    def compare(self, other: 'Intensities', *, distance: float = DEFAULT_DISTANCE) -> bool:
         """
         Match by distance
 
+        :param other: the Luma value to compare with.
         :param distance: suggested values: between 0.2 and 0.5
         :return:
         """
         return (
-            self.nw - 0.25 < other.nw < self.nw + 0.25 and
-            self.ne - 0.25 < other.ne < self.ne + 0.25 and
-            self.sw - 0.25 < other.sw < self.sw + 0.25 and
-            self.se - 0.25 < other.se < self.se + 0.25
+            self.nw - distance < other.nw < self.nw + distance and
+            self.ne - distance < other.ne < self.ne + distance and
+            self.sw - distance < other.sw < self.sw + distance and
+            self.se - distance < other.se < self.se + distance
         )
     # end def
 

@@ -1,12 +1,16 @@
 import image_intensities.classes as classes
 import image_intensities.intensities as intensities
+from .classes import Intensities
+from .version import VERSION, __version__
 
-from .classes import Luma
+__all__ = [
+    'classes', 'intensities',
+    'jpg_intensities', 'png_intensities', 'image_intensities',
+    '__version__', 'VERSION'
+]
 
 try:
-    from .intensities import jpeg_intensities, png_intensities
+    from .intensities import jpg_intensities, png_intensities, image_intensities
 except ImportError:
-    from .pure_python import rgb_luma_from_filename
-    jpeg_intensities = rgb_luma_from_filename
-    png_intensities = rgb_luma_from_filename
+    from .pure_python import jpg_intensities, png_intensities, image_intensities
 # end try

@@ -11,8 +11,9 @@ from luckydonaldUtils.logger import logging
 
 __author__ = 'luckydonald'
 
-from image_intensities import Luma
-from image_intensities.classes import RGB, Sums
+from .classes import Intensities, RGB, QuadrantSums
+
+__all__ = ['classes', 'intensities', 'jpg_intensities', 'png_intensities', 'image_intensities']
 
 logger = logging.getLogger(__name__)
 if __name__ == '__main__':
@@ -20,14 +21,15 @@ if __name__ == '__main__':
 # end if
 
 
-def rgb_sums(img: Image.Image, log_prefix="") -> Sums:
+def rgb_sums(img: Image.Image, log_prefix="") -> QuadrantSums:
     width, height = img.size
     pixels = list(img.getdata())
-    sums = Sums()
+    sums = QuadrantSums()
     log_counter = -1  # more efficient then i % 10 == 0
+    log_interval = height // 10
     for i in range(height):
         log_counter += 1
-        if log_counter == 10:
+        if log_counter == log_interval:
             logger.debug(f'{log_prefix}Processing line {i} of {width}x{height} px image.')
             log_counter = 0
         # end if
@@ -82,12 +84,12 @@ def _calculate_luma(dim: int, sum: RGB):
 # end def
 
 
-def sums_to_luma(sums: Sums, img: Image.Image) -> Luma:
+def sums_to_luma(sums: QuadrantSums, img: Image.Image) -> Luma:
     width, height = img.size
 
     dim = max(width * height / 4.0, 1)
 
-    return Luma(
+    return Intensities(
         nw=_calculate_luma(dim, sums.nw),
         ne=_calculate_luma(dim, sums.ne),
         sw=_calculate_luma(dim, sums.sw),
@@ -96,9 +98,13 @@ def sums_to_luma(sums: Sums, img: Image.Image) -> Luma:
 # end def
 
 
-def rgb_luma_from_filename(filename: str) -> Luma:
+def image_intensities(filename: str) -> Intensities:
     from PIL.Image import open
     img = open(filename)
     result = rgb_sums(img)
     return sums_to_luma(result, img)
 # end def
+
+
+jpg_intensities = image_intensities
+png_intensities = image_intensities

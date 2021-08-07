@@ -122,6 +122,7 @@ def prepare_variant():
     if "Windows" in platform.system():
         extra_kwargs["extra_link_args"] = ["/NODEFAULTLIB:MSVCRTD"]
         extra_kwargs["libraries"] = ["advapi32"]
+    # end def
 
     ffi.set_source(
         'image_intensities._intensities',
