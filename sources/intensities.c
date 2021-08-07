@@ -109,10 +109,10 @@ intensity_data png_intensities(const char *file_name)
 
 intensity_data buffer_intensities(raster_data *data)
 {
-    if (data.error)
+    if (data->error)
         return (struct intensity_data) { .error = 1 };
 
-    quadrant_sums sums = rgb_sums(data.pixels, data.width, data.height);
+    quadrant_sums sums = rgb_sums(data->pixels, data->width, data->height);
     intensity_data ins = rgb_to_luma(sums, data);
 
     free(data.pixels);
