@@ -36,6 +36,7 @@ ffi.cdef("""
         uint8_t g;
         uint8_t b;
     } rgb_pixel;
+
     typedef struct raster_data {
         uint32_t width;
         uint32_t height;
@@ -47,7 +48,7 @@ ffi.cdef("""
     struct intensity_data jpeg_intensities(const char *file_name);
     struct intensity_data png_intensities(const char *file_name);
 
-    struct intensity_data raster_intensities(struct raster_data data);
+    struct intensity_data raster_intensities(struct raster_data *data);
 """)
 
 sources = [
