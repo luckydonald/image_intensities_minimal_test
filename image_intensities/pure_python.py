@@ -7,6 +7,8 @@ image dimensions that gives you a floating point number
 """
 
 from PIL import Image
+from PIL.Image import open
+
 from luckydonaldUtils.logger import logging
 
 __author__ = 'luckydonald'
@@ -99,7 +101,6 @@ def sums_to_luma(sums: QuadrantSums, img: Image.Image) -> Luma:
 
 
 def image_intensities(filename: str) -> Intensities:
-    from PIL.Image import open
     img = open(filename)
     result = rgb_sums(img)
     return sums_to_luma(result, img)
