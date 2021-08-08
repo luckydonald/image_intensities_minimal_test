@@ -121,8 +121,5 @@ intensity_data buffer_intensities(raster_data *data_in)
     quadrant_sums sums = rgb_sums(data.pixels, data.width, data.height);
     intensity_data ins = rgb_to_luma(sums, data);
 
-    free(data_in->pixels);
-    free(data_in);
-
     return ins;
 }
