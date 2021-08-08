@@ -35,7 +35,7 @@ ffi.cdef("""
     struct intensity_data jpeg_intensities(const char *file_name);
     struct intensity_data png_intensities(const char *file_name);
 
-    struct intensity_data buffer_intensities(struct raster_data data);
+    struct intensity_data buffer_intensities(struct raster_data *data);
 """)
 
 sources = [
