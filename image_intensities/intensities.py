@@ -123,13 +123,13 @@ def pixel_bytes_intensities(pixels: bytes, *, width: int, height: int) -> Intens
     raster_data = __ffi.new('raster_data*', dict(width=width, height=height, pixels=rgb_pixels, error=0))
     raster_data.pixels = rgb_pixels  # NOTE that everything returned by `ffi.new()` must be kept alive [in a python variable], so never write directly `raster_data.pixels = ffi.new(...)`!
 
-    for i in range(width):
-        for j in range(height):
-            pixel_index = i * height + j
+    for x in range(width):
+        for y in range(height):
+            pixel_index = x * height + y
             # pillow style:
-            # r = img[i, j][0]
-            # g = img[i, j][1]
-            # b = img[i, j][2]
+            # r = img[x, y][0]
+            # g = img[x, y][1]
+            # b = img[x, y][2]
             # binary style:
             r = pixels[pixel_index * 3 + 0]
             g = pixels[pixel_index * 3 + 1]
