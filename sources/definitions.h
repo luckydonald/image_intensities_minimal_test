@@ -45,6 +45,6 @@ quadrant_sums rgb_sums(rgb_pixel *restrict pixels, uint32_t width, uint32_t heig
 
 intensity_data jpeg_intensities(const char *file_name);
 intensity_data png_intensities(const char *file_name);
-intensity_data buffer_intensities(raster_data data);
+intensity_data buffer_intensities(raster_data *data);
 
 #endif

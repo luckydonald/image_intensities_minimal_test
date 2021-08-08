@@ -107,15 +107,22 @@ intensity_data png_intensities(const char *file_name)
     return ins;
 }
 
-intensity_data buffer_intensities(raster_data data)
+intensity_data buffer_intensities(raster_data *data_in)
 {
+    raster_data data = {};
+    data.width = data_in->width;
+    data.height = data_in->height;
+    data.pixels = data_in->pixels;
+    data.error = data_in->error;
+
     if (data.error)
         return (struct intensity_data) { .error = 1 };
 
     quadrant_sums sums = rgb_sums(data.pixels, data.width, data.height);
     intensity_data ins = rgb_to_luma(sums, data);
 
-    free(data.pixels);
+    free(data_in->pixels);
+    free(data_in);
 
     return ins;
 }
