@@ -105,6 +105,12 @@ def pixel_bytes_intensities(pixels: bytes, *, width: int, height: int) -> Intens
     :param height: height of the image, needed to figure out the quadrant a pixel is in.
     :return: The calculated intensities in the quadrants.
     """
+
+    # The function to call:
+    """
+    intensity_data buffer_intensities(raster_data data);
+    """
+    # The struct raster_data we need to fill:
     """
     typedef struct raster_data {
         uint32_t width;
@@ -116,6 +122,7 @@ def pixel_bytes_intensities(pixels: bytes, *, width: int, height: int) -> Intens
     raster_data = __ffi.new('raster_data')
     raster_data.width = width
     raster_data.height = height
+    raster_data.error = 0
     rgb_pixels = __ffi.new("rgb_pixel[]", width * height)  # allocate the array of rgb_pixels
     raster_data.pixels = rgb_pixels  # NOTE that everything returned by `ffi.new()` must be kept alive [in a python variable], so never write directly `raster_data.pixels = ffi.new(...)`!
 
@@ -136,14 +143,19 @@ def pixel_bytes_intensities(pixels: bytes, *, width: int, height: int) -> Intens
             rgb_pixels[pixel_index].b = b
         # end for
     # end for
+
     raster_data.rgb_pixel = rgb_pixels
     result_struct = __lib.buffer_intensities(raster_data)
     return _convert_struct_to_luma(result_struct)
 # end def
 
 
-def image_intensities(filename: str) -> Intensities:
+def image_intensities(filename: str, *, _fallback_no_temporary_file: bool = True) -> Intensities:
     """
+    In case it's neither png nor jpg, we load it into PIL. See `fallback_no_temporary_file` for what to do then.
+
+    :param _fallback_no_temporary_file: Instead of directly sending the binary data to work with it, we convert it to a png and write that to a temporary file to then call the png version on it.
+                                        This is an temporary feature toggle until the issues with the first approach are ironed out. At a later point, if you need that behaviour you should simply copy the code from below.
     :raises ErrorCode: The library had an error.
     :raises NotImplementedError: The file is not png/jpg.
     """
@@ -155,12 +167,17 @@ def image_intensities(filename: str) -> Intensities:
     else:
         try:
             from PIL import Image
-            from tempfile import NamedTemporaryFile
-            with NamedTemporaryFile(prefix='converted', suffix='png') as f:
-                Image.open(filename).convert('RGB').save(f.name)
-                return png_intensities(f.name)
-            # end with
-        except ImportError:
+            img = Image.open(filename).convert('RGB')
+            if _fallback_no_temporary_file:
+                return pixel_bytes_intensities(pixels=img.tobytes(), width=img.width, height=img.height)
+            else:
+                from tempfile import NamedTemporaryFile
+                with NamedTemporaryFile(prefix='converted', suffix='png') as f:
+                    img.save(f.name)
+                    return png_intensities(f.name)
+                # end with
+            # end if
+        except ImportError:  # PIL/Pillow not found
             raise NotImplementedError(
                 f'Unsupported mime, only `image/png` and `image/jpeg` are supported, got {mime_type}.'
             )
