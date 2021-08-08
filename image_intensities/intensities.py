@@ -113,11 +113,12 @@ def pixel_bytes_intensities(pixels: bytes, *, width: int, height: int) -> Intens
         int error;
     } raster_data;
     """
-    raster_data = __ffi.new('raster_data[1]')
+    raster_data = __ffi.new('raster_data')
     raster_data.width = width
     raster_data.height = height
-    raster_data.pixels = pixels
-    rgb_pixels = __ffi.new('rgb_pixel[%d]' % (width * height,))
+    rgb_pixels = __ffi.new("rgb_pixel[]", width * height)  # allocate the array of rgb_pixels
+    raster_data.pixels = rgb_pixels  # NOTE that everything returned by `ffi.new()` must be kept alive [in a python variable], so never write directly `raster_data.pixels = ffi.new(...)`!
+
     for i in range(width):
         for j in range(height):
             pixel_index = i * height + j
