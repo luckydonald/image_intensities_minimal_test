@@ -105,12 +105,39 @@ def pixel_bytes_intensities(pixels: bytes, *, width: int, height: int) -> Intens
     :param height: height of the image, needed to figure out the quadrant a pixel is in.
     :return: The calculated intensities in the quadrants.
     """
-    from PIL import Image
-    from tempfile import NamedTemporaryFile
-    with NamedTemporaryFile(prefix='converted', suffix='png') as f:
-        Image.frombytes(mode='RGB', data=pixels, size=(width, height)).convert('RGB').save(f.name)
-        return png_intensities(f.name)
-    # end with
+    """
+    typedef struct raster_data {
+        uint32_t width;
+        uint32_t height;
+        rgb_pixel *pixels;
+        int error;
+    } raster_data;
+    """
+    raster_data = __ffi.new('raster_data[1]')
+    raster_data.width = width
+    raster_data.height = height
+    raster_data.pixels = pixels
+    rgb_pixels = __ffi.new('rgb_pixel[%d]' % (width * height,))
+    for i in range(width):
+        for j in range(height):
+            pixel_index = i * height + j
+            # pillow style:
+            # r = img[i, j][0]
+            # g = img[i, j][1]
+            # b = img[i, j][2]
+            # binary style:
+            r = pixels[pixel_index * 3 + 0]
+            g = pixels[pixel_index * 3 + 1]
+            b = pixels[pixel_index * 3 + 2]
+            # now put that into our allocated struct pointer.
+            rgb_pixels[pixel_index].r = r
+            rgb_pixels[pixel_index].g = g
+            rgb_pixels[pixel_index].b = b
+        # end for
+    # end for
+    raster_data.rgb_pixel = rgb_pixels
+    result_struct = __lib.buffer_intensities(raster_data)
+    return _convert_struct_to_luma(result_struct)
 # end def
 
 
