@@ -3,7 +3,7 @@
 # from luckydonaldUtils.logger import logging
 from typing import List, Union, Tuple
 
-from luckydonaldUtils.encoding import to_binary as b
+from luckydonaldUtils.encoding import to_binary
 
 __author__ = 'luckydonald'
 
@@ -44,7 +44,7 @@ def jpg_intensities(filename) -> Intensities:
     """
     :raises ErrorCode: The library had an error.
     """
-    filename = b(filename)
+    filename = to_binary(filename)
     result_struct = __lib.jpeg_intensities(filename)
     return _convert_struct_to_luma(result_struct)
 # end def
@@ -54,7 +54,7 @@ def png_intensities(filename) -> Intensities:
     """
     :raises ErrorCode: The library had an error.
     """
-    filename = b(filename)
+    filename = to_binary(filename)
     result_struct = __lib.png_intensities(filename)
     return _convert_struct_to_luma(result_struct)
 # end def
