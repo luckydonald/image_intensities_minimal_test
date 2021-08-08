@@ -137,4 +137,10 @@ python -c"from image_intensities import png_intensities; print(png_intensities('
 # test with a jpg
 wget https://derpicdn.net/img/download/2021/2/4/2544057.jpg -O /tmp/2544057.jpg  # we need to use an absolute path!
 python -c"from image_intensities import jpeg_intensities; print(jpeg_intensities('/tmp/2544057.jpg'))"
+
+# test with a gif, pillow/PIL style
+pip install Pillow
+wget https://derpicdn.net/img/download/2014/12/23/791101.gif -O /tmp/791101.gif
+python -c"from image_intensities import pixel_bytes_intensities; from PIL import Image; img=Image.open('/tmp/791101.gif').convert('RGB');print(pixel_bytes_intensities(pixels=img.tobytes(), width=img.width, height=img.height))"
+
 ```
