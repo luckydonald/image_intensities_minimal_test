@@ -5,6 +5,7 @@ convert the image into the yuv colorspace, drop the u and v components,
 and then average the y component over 4 evenly-spaced rectangles on the
 image dimensions that gives you a floating point number
 """
+from typing import Union, List, Tuple
 
 from PIL import Image
 from PIL.Image import open
@@ -15,7 +16,10 @@ __author__ = 'luckydonald'
 
 from .classes import Intensities, RGB, QuadrantSums
 
-__all__ = ['classes', 'intensities', 'jpg_intensities', 'png_intensities', 'image_intensities']
+__all__ = [
+    'classes', 'intensities', 'jpg_intensities', 'png_intensities', 'image_intensities',
+    'pixel_array_intensities', 'pixel_bytes_intensities',
+]
 
 logger = logging.getLogger(__name__)
 if __name__ == '__main__':
@@ -23,9 +27,7 @@ if __name__ == '__main__':
 # end if
 
 
-def rgb_sums(img: Image.Image, log_prefix="") -> QuadrantSums:
-    width, height = img.size
-    pixels = list(img.getdata())
+def rgb_sums(pixels: List[int], *, width: int, height: int, log_prefix="") -> QuadrantSums:
     sums = QuadrantSums()
     log_counter = -1  # more efficient then i % 10 == 0
     log_interval = height // 10
@@ -43,7 +45,6 @@ def rgb_sums(img: Image.Image, log_prefix="") -> QuadrantSums:
             sw = (i >= height / 2) and (j <= width / 2)
             # noinspection PyShadowingNames
             se = (i >= height / 2) and (j >= width / 2)
-            img.load()
             pixel = pixels[i * width + j]
             r, g, b = pixel[0], pixel[1], pixel[2]
 
@@ -86,10 +87,8 @@ def _calculate_luma(dim: int, sum: RGB):
 # end def
 
 
-def sums_to_luma(sums: QuadrantSums, img: Image.Image) -> Luma:
-    width, height = img.size
-
-    dim = max(width * height / 4.0, 1)
+def sums_to_luma(sums: QuadrantSums, *, width: int, height: int) -> Intensities:
+    dim = int(max(width * height / 4.0, 1))
 
     return Intensities(
         nw=_calculate_luma(dim, sums.nw),
@@ -102,8 +101,41 @@ def sums_to_luma(sums: QuadrantSums, img: Image.Image) -> Luma:
 
 def image_intensities(filename: str) -> Intensities:
     img = open(filename)
-    result = rgb_sums(img)
-    return sums_to_luma(result, img)
+    img.load()
+    width, height = img.size
+    pixels = list(img.getdata())
+    return pixel_array_intensities(pixels, width=width, height=height)
+# end def
+
+
+def pixel_array_intensities(
+    pixels: Union[List[int], List[Tuple[int, int, int]]], *, width: int, height: int
+) -> Intensities:
+    """
+    :param pixels: List of pixel values,
+                   either a tuple of `(R, G, B)` integers (0-255)
+                   or a continuous list of `R`, `G` and `B` values of pixels.
+                   It has either `width x height` or `width x height x 3` elements respectively.
+    :param width: width of the image, needed to figure out the quadrant a pixel is in.
+    :param height: height of the image, needed to figure out the quadrant a pixel is in.
+    :return: The calculated intensities in the quadrants.
+    """
+    result = rgb_sums(pixels, width=width, height=height)
+    return sums_to_luma(result, width=width, height=height)
+# end def
+
+
+def pixel_bytes_intensities(pixels: bytes, *, width: int, height: int) -> Intensities:
+    """
+    :param pixels: A binary stream of `R`, `G` and `B` values, repeated for every pixel.
+                   Binary representation b'\0x255\0x255\0x255\0x255\0x255\0x255...' of pixel values.
+                   It has a length of `width x height x 3`.
+    :param width: width of the image, needed to figure out the quadrant a pixel is in.
+    :param height: height of the image, needed to figure out the quadrant a pixel is in.
+    :return: The calculated intensities in the quadrants.
+    """
+    pixels: List[int] = [x for x in pixels]
+    return pixel_array_intensities(pixels, width=width, height=height)
 # end def
 
 
