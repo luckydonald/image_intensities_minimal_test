@@ -111,7 +111,22 @@ Using docker as it already has a working `libpng-dev`:
 ```sh
 docker pull python:3.9
 docker run -it --rm python:3.9 bash
+
+# a) use the pip package
 pip install image_intensities
+
+# b) use the secondary test git
+git clone https://github.com/luckydonald/image_intensities_minimal_test.git
+git pull
+
+cd image_intensities_minimal_test/
+pip uninstall image_intensities -y && git pull && rm -rf  {}/usr/local/lib/python3.9/site-packages/image_intensities-*-py3.9-linux-x86_64.egg/,./build/} && python setup.py install
+cd ..
+
+# back to our testing
+python
+from image_intensities._intensities import ffi, lib
+
 
 # test import
 python -c"import image_intensities as it; print(it._intensities.ffi)"
