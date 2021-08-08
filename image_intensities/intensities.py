@@ -141,7 +141,6 @@ def pixel_bytes_intensities(pixels: bytes, *, width: int, height: int) -> Intens
         # end for
     # end for
 
-    raster_data.rgb_pixel = rgb_pixels
     result_struct = __lib.buffer_intensities(raster_data)
     return _convert_struct_to_luma(result_struct)
 # end def
