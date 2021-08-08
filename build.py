@@ -5,19 +5,6 @@ from pathlib import Path
 image_intensities_root_path = Path(__file__).parent
 image_intensities_sources_path = image_intensities_root_path / "sources"
 
-image_intensities_definitions = """
-    extern struct intensity_data {
-        double nw;
-        double ne;
-        double sw;
-        double se;
-        int error;
-    } intensity_data;
-
-    struct intensity_data jpeg_intensities(const char *file_name);
-    struct intensity_data png_intensities(const char *file_name);
-"""
-
 header_path = (image_intensities_sources_path / "definitions.h").resolve()
 extra_kwargs = {}
 
@@ -48,7 +35,7 @@ ffi.cdef("""
     struct intensity_data jpeg_intensities(const char *file_name);
     struct intensity_data png_intensities(const char *file_name);
 
-    struct intensity_data raster_intensities(struct raster_data data);
+    struct intensity_data buffer_intensities(struct raster_data data);
 """)
 
 sources = [
