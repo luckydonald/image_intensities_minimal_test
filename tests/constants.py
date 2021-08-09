@@ -25,3 +25,5 @@ EXPECTED_SUMS_GIF = {  # https://derpibooru.org/api/v1/json/images/791101
   "se": 67.11382688943588,
   "sw": 64.52939786379487
 }
+
+COMPARISON_DISTANCE = 0.001

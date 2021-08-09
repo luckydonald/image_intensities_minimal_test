@@ -6,6 +6,9 @@ import image_intensities.pure_python as pure_python
 from image_intensities import Intensities
 from constants import EXPECTED_SUMS_PNG, EXPECTED_SUMS_JPG
 from constants import IMAGE_PATH_PNG, IMAGE_PATH_JPG
+from constants import COMPARISON_DISTANCE
+
+
 
 
 @pytest.mark.parametrize("png_intensities", [cffi_compiled.png_intensities, pure_python.png_intensities])
@@ -20,7 +23,7 @@ def test_png(png_intensities):
     expected = Intensities(**EXPECTED_SUMS_PNG)
 
     result = png_intensities(IMAGE_PATH_PNG)
-    assert result.compare(expected, distance=0.00001) or result == expected
+    assert result.compare(expected, distance=COMPARISON_DISTANCE) or result == expected
 # end def
 
 
@@ -36,7 +39,7 @@ def test_jpeg(jpg_intensities):
     expected = Intensities(**expected)
 
     result = jpg_intensities(IMAGE_PATH_JPG)
-    assert result.compare(expected, distance=0.00001) or result == expected
+    assert result.compare(expected, distance=COMPARISON_DISTANCE) or result == expected
 # end def
 
 
@@ -45,7 +48,7 @@ def test_image_intensities_png(image_intensities):
     result = image_intensities(IMAGE_PATH_PNG)
 
     expected = Intensities(**EXPECTED_SUMS_PNG)
-    assert result.compare(expected, distance=0.00001) or result == expected
+    assert result.compare(expected, distance=COMPARISON_DISTANCE) or result == expected
 # end def
 
 
@@ -54,5 +57,5 @@ def test_jpeg_mime(image_intensities):
     result = image_intensities(IMAGE_PATH_JPG)
 
     expected = Intensities(**EXPECTED_SUMS_JPG)
-    assert result.compare(expected, distance=0.00001) or result == expected
+    assert result.compare(expected, distance=COMPARISON_DISTANCE) or result == expected
 # end def
