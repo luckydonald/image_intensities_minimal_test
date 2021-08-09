@@ -12,7 +12,7 @@ from PIL import Image
 def test_pixel_bytes_intensities_png(pixel_bytes_intensities):
     img = Image.open(IMAGE_PATH_PNG).convert('RGB')
     result = pixel_bytes_intensities(pixels=img.tobytes(), width=img.width, height=img.height)
-    assert result.round(4) == EXPECTED_SUMS_PNG.round(4)
+    assert result.compare(EXPECTED_SUMS_PNG, distance=0.00001) or result == EXPECTED_SUMS_PNG
 # end def
 
 
@@ -24,7 +24,7 @@ def test_pixel_bytes_intensities_jpeg(pixel_bytes_intensities):
         width=img.width,
         height=img.height,
     )
-    assert result.round(4) == EXPECTED_SUMS_JPG.round(4)
+    assert result.compare(EXPECTED_SUMS_JPG, distance=0.00001) or result == EXPECTED_SUMS_JPG
 # end def
 
 
@@ -36,7 +36,7 @@ def test_pixel_bytes_intensities_png(pixel_bytes_intensities):
         width=img.width,
         height=img.height,
     )
-    assert result.round(4) == EXPECTED_SUMS_PNG.round(4)
+    assert result.compare(EXPECTED_SUMS_PNG, distance=0.00001) or result == EXPECTED_SUMS_PNG
 # end def
 
 
@@ -48,7 +48,7 @@ def test_pixel_array_intensities__tuple_array__png(pixel_array_intensities):
         width=img.width,
         height=img.height,
     )
-    assert result.round(4) == EXPECTED_SUMS_PNG.round(4)
+    assert result.compare(EXPECTED_SUMS_PNG, distance=0.00001) or result == EXPECTED_SUMS_PNG
 # end def
 
 
@@ -60,7 +60,7 @@ def test_pixel_array_intensities__tuple_array__jpg(pixel_array_intensities):
         width=img.width,
         height=img.height,
     )
-    assert result.round(4) == EXPECTED_SUMS_JPG.round(4)
+    assert result.compare(EXPECTED_SUMS_JPG, distance=0.00001) or result == EXPECTED_SUMS_JPG
 # end def
 
 
@@ -82,7 +82,7 @@ def test_pixel_array_intensities__flat_array__png(pixel_array_intensities):
         width=img.width,
         height=img.height,
     )
-    assert result.round(4) == EXPECTED_SUMS_PNG.round(4)
+    assert result.compare(EXPECTED_SUMS_PNG, distance=0.00001) or result == EXPECTED_SUMS_PNG
 # end def
 
 
@@ -104,5 +104,5 @@ def test_pixel_array_intensities__flat_array__png(pixel_array_intensities):
         width=img.width,
         height=img.height,
     )
-    assert result.round(4) == EXPECTED_SUMS_PNG.round(4)
+    assert result.compare(EXPECTED_SUMS_PNG, distance=0.00001) or result == EXPECTED_SUMS_PNG
 # end def
