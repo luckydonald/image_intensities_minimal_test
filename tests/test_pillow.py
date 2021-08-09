@@ -44,7 +44,7 @@ def test_pixel_bytes_intensities_png(pixel_bytes_intensities):
 def test_pixel_array_intensities__tuple_array__png(pixel_array_intensities):
     img = Image.open(IMAGE_PATH_PNG).convert('RGB')
     result = pixel_array_intensities(
-        pixels=[img.getpixel(x, y) for y in range(img.height) for x in range(img.width)],
+        pixels=[img.getpixel((x, y)) for y in range(img.height) for x in range(img.width)],
         width=img.width,
         height=img.height,
     )
@@ -56,7 +56,7 @@ def test_pixel_array_intensities__tuple_array__png(pixel_array_intensities):
 def test_pixel_array_intensities__tuple_array__jpg(pixel_array_intensities):
     img = Image.open(IMAGE_PATH_JPG).convert('RGB')
     result = pixel_array_intensities(
-        pixels=[img.getpixel(x, y) for y in range(img.height) for x in range(img.width)],
+        pixels=[img.getpixel((x, y)) for y in range(img.height) for x in range(img.width)],
         width=img.width,
         height=img.height,
     )
@@ -70,7 +70,7 @@ def test_pixel_array_intensities__flat_array__png(pixel_array_intensities):
     pixels = []
     for x in range(img.width):
         for y in range(img.height):
-            r, g, b = img.getpixel(x, y)
+            r, g, b = img.getpixel((x, y))
             pixels.append(r)
             pixels.append(g)
             pixels.append(b)
@@ -92,7 +92,7 @@ def test_pixel_array_intensities__flat_array__png(pixel_array_intensities):
     pixels = []
     for x in range(img.width):
         for y in range(img.height):
-            r, g, b = img.getpixel(x, y)
+            r, g, b = img.getpixel((x, y))
             pixels.append(r)
             pixels.append(g)
             pixels.append(b)
