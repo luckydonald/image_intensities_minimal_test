@@ -115,6 +115,22 @@ class Intensities(object):
         )
     # end def
 
+    def round(self, ndigits: int) -> 'Intensities':
+        """
+        Round all quadrants to a given precision in decimal digits.
+        This returns a new object, being a copy of the current with the changes applied..
+
+        :param ndigits: The precision in decimal digits to round to. May be negative.
+        :return: Intensities
+        """
+        return self.__class__(
+            nw=round(self.nw, ndigits=ndigits),
+            ne=round(self.ne, ndigits=ndigits),
+            sw=round(self.sw, ndigits=ndigits),
+            se=round(self.se, ndigits=ndigits),
+        )
+    # end def
+
     def __repr__(self):
         return f"{self.__class__.__name__}(nw={self.nw!r}, ne={self.ne!r}, sw={self.sw!r}, se={self.se!r})"
     # end def
