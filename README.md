@@ -143,4 +143,7 @@ pip install Pillow
 wget https://derpicdn.net/img/download/2014/12/23/791101.gif -O /tmp/791101.gif
 python -c"from image_intensities import pixel_bytes_intensities; from PIL import Image; img=Image.open('/tmp/791101.gif').convert('RGB');print(pixel_bytes_intensities(pixels=img.tobytes(), width=img.width, height=img.height))"
 
+# unit tests
+pip install tox
+cd /image_intensities_minimal_test/ && ( tox ) ; cd ..
 ```
