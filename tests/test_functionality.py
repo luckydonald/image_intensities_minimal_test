@@ -20,7 +20,7 @@ def test_png(png_intensities):
     expected = Intensities(**EXPECTED_SUMS_PNG)
 
     result = png_intensities(IMAGE_PATH_PNG)
-    assert result.round(6) == expected
+    assert result.round(4) == expected.round(4)
 # end def
 
 
@@ -36,7 +36,7 @@ def test_jpeg(jpg_intensities):
     expected = Intensities(**expected)
 
     result = jpg_intensities(IMAGE_PATH_JPG)
-    assert result.round(6) == expected
+    assert result.round(4) == expected.round(4)
 # end def
 
 
@@ -45,7 +45,7 @@ def test_image_intensities_png(image_intensities):
     result = image_intensities(IMAGE_PATH_PNG)
 
     expected = Intensities(**EXPECTED_SUMS_PNG)
-    assert result.round(6) == expected
+    assert result.round(4) == expected.round(4)
 # end def
 
 
@@ -54,5 +54,5 @@ def test_jpeg_mime(image_intensities):
     result = image_intensities(IMAGE_PATH_JPG)
 
     expected = Intensities(**EXPECTED_SUMS_JPG)
-    assert result.round(6) == expected
+    assert result.round(4) == expected.round(4)
 # end def
